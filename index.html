@@ -1,0 +1,145 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>For Brindha ❤️</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:#08030a;color:#fff;font-family:Georgia,'Times New Roman',serif;overflow:hidden}.screen{position:fixed;inset:0}.stars{position:absolute;inset:0;background-image:radial-gradient(#fff 1px,transparent 1px);background-size:52px 52px;opacity:.13;animation:stars 20s linear infinite}@keyframes stars{to{transform:translateY(52px)}}
+#intro{display:grid;place-items:center;background:radial-gradient(circle at 50% 35%,#39122a,#09030b 65%);z-index:10;text-align:center}.introbox{width:min(90%,560px);padding:28px}.eyebrow{letter-spacing:4px;text-transform:uppercase;font-size:12px;opacity:.72}.introbox h1{font-size:clamp(38px,11vw,74px);margin:16px 0 10px;text-shadow:0 0 35px #ff4d96}.introbox p{font-size:18px;line-height:1.6;opacity:.82}.start{margin-top:18px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.09);color:#fff;border-radius:999px;padding:15px 28px;font-size:17px;cursor:pointer;backdrop-filter:blur(12px)}
+#countdown{display:none;place-items:center;background:radial-gradient(circle,#3c102d,#08030a 70%);z-index:9}.number{font-size:clamp(130px,38vw,260px);font-weight:900;text-shadow:0 0 35px #ff3e8e,0 0 90px #ff3e8e;animation:number .85s ease}@keyframes number{0%{transform:scale(.35);opacity:0}55%{transform:scale(1.12);opacity:1}100%{transform:scale(1);opacity:1}}
+#boom{display:none;place-items:center;z-index:8;background:#fff}.boomtext{font-size:clamp(75px,20vw,180px);font-weight:900;color:#10040b;animation:boom .9s ease}@keyframes boom{0%{transform:scale(.2);opacity:0}55%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+#story{display:none;background:#08030a}.photo{position:absolute;inset:0;display:grid;place-items:center;opacity:0;transition:opacity 1.15s}.photo.active{opacity:1}.photo img{width:100%;height:100%;object-fit:contain;filter:saturate(1.05) contrast(1.02);transform:scale(1.03);transition:transform 7s ease}.photo.active img{transform:scale(1.11)}.shade{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.08) 35%,rgba(0,0,0,.86) 100%)}.caption{position:absolute;bottom:9vh;left:7%;right:7%;text-align:center;z-index:3;text-shadow:0 3px 22px #000}.chapter{font-size:11px;letter-spacing:4px;text-transform:uppercase;opacity:.65}.caption{transition:opacity .45s}.quote{font-size:clamp(22px,5.3vw,39px);line-height:1.28;margin:12px auto 0;max-width:900px}.hint{position:absolute;top:18px;left:20px;z-index:4;font-size:12px;opacity:.5}.music{position:absolute;right:18px;top:16px;z-index:5;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.25);color:#fff;border-radius:999px;padding:9px 12px;backdrop-filter:blur(10px);cursor:pointer}.progress{position:absolute;left:7%;right:7%;bottom:4vh;height:2px;background:rgba(255,255,255,.2);z-index:4}.bar{height:100%;width:0;background:#fff;transition:width .5s}.final{display:none;position:absolute;inset:0;z-index:20;background:linear-gradient(rgba(7,2,8,.2),rgba(7,2,8,.78)),url('photos/58.jpg') center/cover no-repeat;align-items:center;justify-content:center;text-align:center;padding:25px}.finalbox{max-width:800px;background:rgba(0,0,0,.35);padding:28px;border:1px solid rgba(255,255,255,.15);border-radius:28px;backdrop-filter:blur(6px)}.final h2{font-size:clamp(40px,11vw,78px);margin:5px 0;text-shadow:0 0 30px #ff4b95}.final p{font-size:clamp(19px,4.5vw,27px);line-height:1.6}.replay{border:0;border-radius:999px;padding:12px 20px;color:#8b1748;font-weight:bold}.heart{font-size:44px;animation:beat 1.1s infinite}@keyframes beat{50%{transform:scale(1.2)}}
+.conf{position:fixed;top:-30px;z-index:50;animation:fall 3.5s linear forwards}@keyframes fall{to{transform:translateY(115vh) rotate(720deg);opacity:0}}
+</style></head><body>
+<div id="intro" class="screen"><div class="stars"></div><div class="introbox"><div class="eyebrow">A little journey through the memories</div><h1>For Brindha ❤️</h1><p>Before the surprise, let's rewind the beautiful story...</p><button class="start" id="start">Tap to begin ✨</button></div></div>
+<div id="countdown" class="screen"><div class="stars"></div><div class="number" id="num">10</div></div>
+<div id="boom" class="screen"><div class="boomtext">BOOM 💥</div></div>
+<audio id="bgAudio" preload="auto" loop><source src="brindha-birthday-song.mp3" type="audio/mpeg"></audio><div id="story" class="screen"><div class="hint">Tap anywhere to continue</div><button class="music" id="music">♫ Music</button><div id="photos"></div><div class="caption"><div class="chapter" id="chapter"></div><div class="quote" id="quote"></div></div><div class="progress"><div class="bar" id="bar"></div></div></div>
+<div class="final screen" id="final"><div class="finalbox"><div class="heart">❤️</div><h2>Happy Birthday, Brindha</h2><p>From the little girl in those first photographs to the woman standing beside me today... every chapter became a memory I never want to lose.</p><p><b>And the best part?</b><br>Our story is still being written. ❤️</p><button class="replay" id="replay">Start again ↻</button></div></div>
+<script>
+const total=58;
+const photos=document.getElementById('photos');
+const slides=[];
+const player=document.getElementById('bgAudio');
+const countEl=document.getElementById('num');
+const story=document.getElementById('story');
+const final=document.getElementById('final');
+const musicBtn=document.getElementById('music');
+const quoteEl=document.getElementById('quote');
+const chapterEl=document.getElementById('chapter');
+const bar=document.getElementById('bar');
+const photoQuotes=[
+['The Beginning','Before anyone knew the story, there was this little smile.'],
+['Little Brindha','Tiny hands, bright eyes, and a whole lifetime waiting ahead.'],
+['Growing Up','The years were quietly turning a little girl into someone extraordinary.'],
+['Growing Up','Every age left a little more of the person you were meant to become.'],
+['Growing Up','Some childhood moments never really grow old.'],
+['Growing Up','That smile survived every chapter. That is still my favourite thing.'],
+['Growing Up','From school days to life days, every frame carries a piece of you.'],
+['Growing Up','A photograph can freeze a moment, but it cannot freeze how precious it was.'],
+['Finding Yourself','The little girl was growing, and her own story was beginning to unfold.'],
+['Finding Yourself','Different places, different years, the same unmistakable spark.'],
+['Finding Yourself','Somewhere between growing up and dreaming big, you became you.'],
+['Finding Yourself','There was always a little magic in the way you carried yourself.'],
+['Finding Yourself','A new chapter, a new look, a new memory to keep.'],
+['Finding Yourself','The years changed the picture. They only made the smile more beautiful.'],
+['Finding Yourself','And then came the moments that would someday become our favourites.'],
+['A Beautiful Life','Family, friends, laughter... the pieces that made your world yours.'],
+['A Beautiful Life','The people beside you became part of the story too.'],
+['A Beautiful Life','Some memories are precious because of who was standing beside you.'],
+['Our Story','And then my chapter quietly entered your timeline.'],
+['Our Story','Friendship, laughter and countless little moments began making their own story.'],
+['Our Story','Somewhere along the way, your smile started feeling like home.'],
+['Our Story','Two faces in a frame, and a memory that still makes me smile.'],
+['Our Story','The best photographs are the ones that make you remember the feeling.'],
+['Our Story','More laughter. More places. More reasons to keep the camera rolling.'],
+['Together','Life became a little more colourful when there were two of us in the frame.'],
+['Together','Ordinary days became memories simply because you were there.'],
+['Together','Somewhere between the photos, we became a collection of favourite moments.'],
+['Together','And suddenly, every journey had a better view.'],
+['Together','The world kept moving. We kept collecting moments.'],
+['Together','One selfie, one laugh, one memory at a time.'],
+['Together','There are places I remember because I went there with you.'],
+['Together','The best part of a memory is having someone to remember it with.'],
+['Together','Every frame says the same thing: we were happy here.'],
+['Together','Different days. Different clothes. Same two people.'],
+['Together','Some pictures are proof that happiness can be completely ordinary.'],
+['Together','The smiles were real. The memories are permanent.'],
+['Together','And the story kept getting better without asking permission.'],
+['Together','A thousand tiny moments can make one unforgettable chapter.'],
+['Together','If memories had a favourite colour, ours would be warm and bright.'],
+['Together','This is the kind of ordinary I would happily repeat forever.'],
+['Together','The places changed. The people changed. The feeling stayed.'],
+['Together','Some moments are too good to leave inside a camera roll.'],
+['Together','A little laughter, a little chaos, and a lot of us.'],
+['Together','The frame changed, but the feeling only grew.'],
+['Together','Every photograph has a story. Ours has many.'],
+['Together','And somewhere in all these memories, forever started feeling natural.'],
+['Together','From one moment to the next, we kept choosing the same story.'],
+['Us','The kind of memory that needs no explanation.'],
+['Us','A smile beside you somehow makes every place feel familiar.'],
+['Us','Somewhere between all these photographs, you became my favourite person to photograph.'],
+['Us','There is a quiet happiness in simply standing beside you.'],
+['Us','The best views are the ones where you are standing next to me.'],
+['Us','If I could keep one thing from every day, it would be the moments with you.'],
+['Us','And after all the years, here we are, still making memories.'],
+['Us','This chapter is my favourite because I get to be in it with you.'],
+['Today','From the little girl in the first photograph to the woman beside me today... what a beautiful journey.'],
+['Today','Every earlier chapter led us here.'],
+['Today','And the best part is that this is not the ending.'],
+['Today','There are still so many places to go, photos to take and memories to make.'],
+['Today','Our story is still being written. ❤️']
+];
+for(let k=0;k<total;k++){
+ const d=document.createElement('div'); d.className='photo';
+ d.innerHTML=`<img src="photos/${String(k+1).padStart(2,'0')}.jpg" alt="Memory ${k+1}"><div class="shade"></div>`;
+ photos.appendChild(d); slides.push(d);
+}
+let current=-1, started=false, musicOn=true, advancing=false;
+function show(n, animate=true){
+ n=Math.max(0,Math.min(total-1,n));
+ slides.forEach((s,j)=>s.classList.toggle('active',j===n));
+ const q=photoQuotes[n]||photoQuotes[photoQuotes.length-1];
+ chapterEl.textContent=q[0]; quoteEl.textContent=q[1];
+ bar.style.width=((n+1)/total*100)+'%'; current=n;
+}
+function confetti(){
+ for(let k=0;k<90;k++){let s=document.createElement('div');s.className='conf';s.textContent=['❤️','✨','💕','🌸','⭐'][Math.floor(Math.random()*5)];s.style.left=Math.random()*100+'vw';s.style.fontSize=12+Math.random()*18+'px';s.style.animationDelay=Math.random()*.8+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),4300)}
+}
+function begin(){
+ if(started)return; started=true;
+ document.getElementById('intro').style.display='none';
+ document.getElementById('countdown').style.display='grid';
+ player.volume=.78;
+ let n=10; countEl.textContent=n;
+ const timer=setInterval(()=>{
+   n--;
+   if(n>0){countEl.textContent=n; countEl.classList.remove('number'); void countEl.offsetWidth; countEl.classList.add('number');}
+   else{
+     clearInterval(timer); document.getElementById('countdown').style.display='none'; document.getElementById('boom').style.display='grid';
+     confetti();
+     setTimeout(()=>{
+       document.getElementById('boom').style.display='none'; story.style.display='block'; show(0);
+       player.play().catch(()=>{});
+     },1150);
+   }
+ },900);
+}
+document.getElementById('start').onclick=begin;
+// Music drives the story: the 58 memories are distributed across the full song.
+player.addEventListener('timeupdate',()=>{
+ if(!story || story.style.display!=='block' || !player.duration) return;
+ const duration=player.duration;
+ const usable=Math.max(1,duration-8);
+ const idx=Math.min(total-1,Math.floor((player.currentTime/usable)*total));
+ if(idx!==current && !advancing) show(idx);
+ // Reserve the final ~8 seconds for the birthday reveal.
+ if(player.currentTime>=duration-8 && current>=total-1){
+   story.style.display='none'; final.style.display='flex'; confetti(); player.pause();
+ }
+});
+story.onclick=e=>{
+ if(e.target.closest('.music')) return;
+ if(current<total-1){
+   advancing=true; show(current+1); const target=((current+1)/total)*Math.max(1,player.duration-8); if(Math.abs(player.currentTime-target)>2) player.currentTime=target; setTimeout(()=>advancing=false,650);
+ } else {story.style.display='none';final.style.display='flex';confetti();player.pause();}
+};
+musicBtn.onclick=e=>{e.stopPropagation(); musicOn=!musicOn; if(musicOn){player.play().catch(()=>{});musicBtn.textContent='♫ Music';}else{player.pause();musicBtn.textContent='♫ Muted';}};
+document.getElementById('replay').onclick=()=>location.reload();
+</script></body></html>
